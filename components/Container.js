@@ -16,7 +16,6 @@ const Container = ({ children, layout, fullWidth, ...customMeta }) => {
     <div>
       <Head>
         <title>{meta.title}</title>
-        {/* <meta content={BLOG.darkBackground} name="theme-color" /> */}
         <meta name="robots" content="follow, index" />
         <meta charSet="UTF-8" />
         {BLOG.seo.googleSiteVerification && (
@@ -38,9 +37,7 @@ const Container = ({ children, layout, fullWidth, ...customMeta }) => {
         />
         <meta
           property="og:image"
-          content={`${BLOG.ogImageGenerateURL}/${encodeURIComponent(
-            meta.title
-          )}.png?theme=dark&md=1&fontSize=125px&images=https%3A%2F%2Fnobelium.vercel.app%2Flogo-for-dark-bg.svg`}
+          content={`${BLOG.ogImage}`}
         />
         <meta property="og:type" content={meta.type} />
         <meta name="twitter:card" content="summary_large_image" />
@@ -48,9 +45,7 @@ const Container = ({ children, layout, fullWidth, ...customMeta }) => {
         <meta name="twitter:title" content={meta.title} />
         <meta
           name="twitter:image"
-          content={`${BLOG.ogImageGenerateURL}/${encodeURIComponent(
-            meta.title
-          )}.png?theme=dark&md=1&fontSize=125px&images=https%3A%2F%2Fnobelium.vercel.app%2Flogo-for-dark-bg.svg`}
+          content={BLOG.ogImage}
         />
         {meta.type === 'article' && (
           <>
@@ -69,11 +64,10 @@ const Container = ({ children, layout, fullWidth, ...customMeta }) => {
       >
         <Header
           navBarTitle={layout === 'blog' ? meta.title : null}
-          fullWidth={fullWidth}
         />
         <main
           className={`m-auto flex-grow w-full transition-all ${
-            !fullWidth ? 'max-w-2xl px-4' : 'px-4 md:px-24'
+            !fullWidth ? 'max-w-4xl px-4' : 'px-4 md:px-24'
           }`}
         >
           {children}

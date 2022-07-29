@@ -24,7 +24,7 @@ const Layout = ({
   return (
     <Container
       layout="blog"
-      title={frontMatter.title}
+      title={`${frontMatter.title} - ${BLOG.title}`}
       description={frontMatter.summary}
       // date={new Date(frontMatter.publishedAt).toISOString()}
       type="article"
@@ -42,7 +42,7 @@ const Layout = ({
                   alt={BLOG.author}
                   width={24}
                   height={24}
-                  src={`https://gravatar.com/avatar/${emailHash}`}
+                  src="/avatar.png"
                   className="rounded-full"
                 />
                 <p className="ml-2 md:block">{BLOG.author}</p>
@@ -83,7 +83,7 @@ const Layout = ({
       <div className="flex justify-between font-medium text-gray-500 dark:text-gray-400">
         <a>
           <button
-            onClick={() => router.push(BLOG.path || '/')}
+            onClick={() => router.push(`${BLOG.path}/`)}
             className="mt-2 cursor-pointer hover:text-black dark:hover:text-gray-100"
           >
             ← {locale.POST.BACK}

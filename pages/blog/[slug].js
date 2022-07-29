@@ -1,4 +1,4 @@
-import Layout from '@/layouts/layout'
+import BlogLayout from '@/layouts/blog'
 import { getAllPosts, getPostBlocks } from '@/lib/notion'
 import BLOG from '@/blog.config'
 import { createHash } from 'crypto'
@@ -6,7 +6,7 @@ import { createHash } from 'crypto'
 const BlogPost = ({ post, blockMap, emailHash }) => {
   if (!post) return null
   return (
-    <Layout
+    <BlogLayout
       blockMap={blockMap}
       frontMatter={post}
       emailHash={emailHash}

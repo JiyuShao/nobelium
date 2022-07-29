@@ -2,18 +2,21 @@ import { useState } from 'react'
 import BlogPost from '@/components/BlogPost'
 import Container from '@/components/Container'
 import Tags from '@/components/Tags'
+import Pagination from '@/components/Pagination'
 import PropTypes from 'prop-types'
 
-const SearchLayout = ({ tags, posts, currentTag }) => {
+const ListLayout = ({ tags, posts, initialDisplayPosts = [], currentTag, pagination }) => {
   const [searchValue, setSearchValue] = useState('')
   let filteredBlogPosts = []
   if (posts) {
-    filteredBlogPosts = posts.filter(post => {
+    filteredBlogPosts = posts.filter((post) => {
       const tagContent = post.tags ? post.tags.join(' ') : ''
       const searchContent = post.title + post.summary + tagContent
       return searchContent.toLowerCase().includes(searchValue.toLowerCase())
     })
   }
+  // If initialDisplayPosts exist, display it if no searchValue is specified
+  const displayPosts = !searchValue ? initialDisplayPosts : filteredBlogPosts
 
   return (
     <Container>
@@ -21,10 +24,10 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
         <input
           type="text"
           placeholder={
-            currentTag ? `Search in #${currentTag}` : 'Search Articles'
+            currentTag ? `搜索标签 #${currentTag}` : '搜索文章'
           }
           className="block w-full border px-4 py-2 border-black bg-white text-black dark:bg-night dark:border-white dark:text-white"
-          onChange={e => setSearchValue(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
         />
         <svg
           className="absolute right-3 top-3 h-5 w-5 text-black dark:text-white"
@@ -41,24 +44,26 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
           ></path>
         </svg>
       </div>
-      <Tags
-        tags={tags}
-        currentTag={currentTag}
-      />
-      <div className="article-container my-8">
-        {!filteredBlogPosts.length && (
+      <Tags tags={tags} currentTag={currentTag} />
+
+      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+        {!displayPosts.length && (
           <p className="text-gray-500 dark:text-gray-300">No posts found.</p>
         )}
-        {filteredBlogPosts.slice(0, 20).map(post => (
+        {displayPosts.slice(0, 20).map((post) => (
           <BlogPost key={post.id} post={post} />
         ))}
-      </div>
+      </ul>
+
+      {pagination && pagination.totalPages > 1 && !searchValue && (
+        <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+      )}
     </Container>
   )
 }
-SearchLayout.propTypes = {
+ListLayout.propTypes = {
   posts: PropTypes.array.isRequired,
   tags: PropTypes.object.isRequired,
   currentTag: PropTypes.string
 }
-export default SearchLayout
+export default ListLayout
