@@ -45,11 +45,11 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
         tags={tags}
         currentTag={currentTag}
       />
-      <div className="article-container my-8">
+      <div className="article-container my-8 divide-y divide-gray-200 dark:divide-gray-700">
         {!filteredBlogPosts.length && (
           <p className="text-gray-500 dark:text-gray-300">No posts found.</p>
         )}
-        {filteredBlogPosts.slice(0, 20).map(post => (
+        {filteredBlogPosts.map(post => (
           <BlogPost key={post.id} post={post} />
         ))}
       </div>

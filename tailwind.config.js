@@ -1,5 +1,6 @@
 import { config } from './lib/server/config'
 import { FONTS_SANS, FONTS_SERIF } from './consts'
+import colors from 'tailwindcss/colors'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -8,6 +9,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: colors.red,
+        gray: colors.neutral,
         day: {
           DEFAULT: config.lightBackground || '#ffffff'
         },

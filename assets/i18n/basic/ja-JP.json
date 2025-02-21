@@ -3,7 +3,8 @@
     "INDEX": "ブログ",
     "RSS": "購読",
     "SEARCH": "検索",
-    "ABOUT": "このサイトについて"
+    "ABOUT": "このサイトについて",
+    "READING": "読む"
   },
   "PAGINATION": {
     "PREV": "前ページ",

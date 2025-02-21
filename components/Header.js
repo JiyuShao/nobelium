@@ -3,16 +3,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useConfig } from '@/lib/config'
 import { useLocale } from '@/lib/locale'
-import useTheme from '@/lib/theme'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const NavBar = () => {
   const BLOG = useConfig()
   const locale = useLocale()
   const links = [
-    { id: 0, name: locale.NAV.INDEX, to: BLOG.path || '/', show: true },
-    { id: 1, name: locale.NAV.ABOUT, to: '/about', show: BLOG.showAbout },
+    { id: 0, name: locale.NAV.INDEX, to: `${BLOG.path}/search`, show: true },
+    { id: 1, name: locale.NAV.READING, to: BLOG.readingLink, show: true },
+    // { id: 1, name: locale.NAV.ABOUT, to: '/about', show: true },
     { id: 2, name: locale.NAV.RSS, to: '/feed', show: true, external: true },
-    { id: 3, name: locale.NAV.SEARCH, to: '/search', show: true }
+    // { id: 3, name: locale.NAV.SEARCH, to: '/search', show: true }
   ]
   return (
     <div className="flex-shrink-0">
@@ -28,25 +29,25 @@ const NavBar = () => {
               </li>
             )
         )}
+        <ThemeToggle />
       </ul>
     </div>
   )
 }
 
-export default function Header ({ navBarTitle, fullWidth }) {
+export default function Header({ navBarTitle, fullWidth }) {
   const BLOG = useConfig()
-  const { dark } = useTheme()
 
   // Favicon
 
-  const resolveFavicon = fallback => !fallback && dark ? '/favicon.dark.png' : '/favicon.png'
+  const resolveFavicon = fallback => !fallback && '/favicon.png'
   const [favicon, _setFavicon] = useState(resolveFavicon())
   const setFavicon = fallback => _setFavicon(resolveFavicon(fallback))
 
   useEffect(
     () => setFavicon(),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dark]
+    []
   )
 
   const useSticky = !BLOG.autoCollapsedNavBar
@@ -54,7 +55,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
   const sentinelRef = useRef(/** @type {HTMLDivElement} */ undefined)
   const handler = useCallback(([entry]) => {
     if (useSticky && navRef.current) {
-      navRef.current?.classList.toggle('sticky-nav-full', !entry.isIntersecting)
+      navRef.current?.classList.toggle('sticky-nav', !entry.isIntersecting)
     } else {
       navRef.current?.classList.add('remove-sticky')
     }
@@ -72,7 +73,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
 
   const titleRef = useRef(/** @type {HTMLParagraphElement} */ undefined)
 
-  function handleClickHeader (/** @type {MouseEvent} */ ev) {
+  function handleClickHeader(/** @type {MouseEvent} */ ev) {
     if (![navRef.current, titleRef.current].includes(ev.target)) return
 
     window.scrollTo({
@@ -85,9 +86,8 @@ export default function Header ({ navBarTitle, fullWidth }) {
     <>
       <div className="observer-element h-4 md:h-12" ref={sentinelRef}></div>
       <div
-        className={`sticky-nav group m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-60 ${
-          !fullWidth ? 'max-w-3xl px-4' : 'px-4 md:px-24'
-        }`}
+        className={`sticky-nav group m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-60 ${!fullWidth ? 'max-w-3xl px-4' : 'px-4 md:px-24'
+          }`}
         id="sticky-nav"
         ref={navRef}
         onClick={handleClickHeader}
@@ -101,16 +101,15 @@ export default function Header ({ navBarTitle, fullWidth }) {
             className="fill-black dark:fill-white"
           />
         </svg>
-        <div className="flex items-center">
-          <Link href="/" aria-label={BLOG.title}>
-            <Image
-              src={favicon}
-              width={24}
-              height={24}
-              alt={BLOG.title}
-              onError={() => setFavicon(true)}
-            />
-          </Link>
+        <Link href="/" className="flex items-center" aria-label={BLOG.title}>
+          <Image
+            className="rounded-full"
+            src={favicon}
+            width={24}
+            height={24}
+            alt={BLOG.title}
+            onError={() => setFavicon(true)}
+          />
           <HeaderName
             ref={titleRef}
             siteTitle={BLOG.title}
@@ -118,14 +117,14 @@ export default function Header ({ navBarTitle, fullWidth }) {
             postTitle={navBarTitle}
             onClick={handleClickHeader}
           />
-        </div>
+        </Link>
         <NavBar />
       </div>
     </>
   )
 }
 
-const HeaderName = forwardRef(function HeaderName ({ siteTitle, siteDescription, postTitle, onClick }, ref) {
+const HeaderName = forwardRef(function HeaderName({ siteTitle, siteDescription, postTitle, onClick }, ref) {
   return (
     <p
       ref={ref}
