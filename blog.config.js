@@ -1,24 +1,22 @@
 const BLOG = {
-  title: 'CRAIGARY',
-  author: 'Craig Hart',
-  email: 'i@craigary.net',
-  link: 'https://nobelium.vercel.app',
-  description: 'This gonna be an awesome website.',
-  lang: 'en-US', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
-  timezone: 'Asia/Shanghai', // Your Notion posts' date will be interpreted as this timezone. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for all options.
-  appearance: 'auto', // ['light', 'dark', 'auto'],
+  title: 'Jiyu Shao\'s Blog',
+  author: 'Jiyu Shao',
+  email: 'jiyu.shao@gmail.com',
+  link: 'https://jiyu-shao.vercel.app',
+  description: 'jiyu-shao.vercel.app',
+  lang: 'zh-CN', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
   font: 'sans-serif', // ['sans-serif', 'serif']
-  lightBackground: '#ffffff', // use hex value, don't forget '#' e.g #fffefc
-  darkBackground: '#18181B', // use hex value, don't forget '#'
+  lightBackground: '#f8f8f8', // use hex value, don't forget '#' e.g #fffefc
+  darkBackground: '#1c1c1c', // use hex value, don't forget '#'
   path: '', // leave this empty unless you want to deploy Nobelium in a folder
-  since: 2021, // If leave this empty, current year will be used.
+  since: 2018, // If leave this empty, current year will be used.
   postsPerPage: 7,
-  sortByDate: false,
-  showAbout: true,
-  showArchive: true,
-  autoCollapsedNavBar: false, // The automatically collapsed navigation bar
-  ogImageGenerateURL: 'https://og-image-craigary.vercel.app', // The link to generate OG image, don't end with a slash
-  socialLink: 'https://twitter.com/craigaryhart',
+  sortByDate: true,
+  readingLink: 'https://jiyu-shao.notion.site/3e1653efbede4cfe81bd33b08b562e1a',
+  showArchive: false,
+  ogImage: '', // OG Image
+  githubLink: 'https://github.com/JiyuShao',
+  socialLink: 'https://github.com/JiyuShao',
   seo: {
     keywords: ['Blog', 'Website', 'Notion'],
     googleSiteVerification: '' // Remove the value or replace it with your own google site verification code
@@ -38,7 +36,7 @@ const BLOG = {
   },
   comment: {
     // support provider: gitalk, utterances, cusdis
-    provider: '', // leave it empty if you don't need any comment plugin
+    provider: 'utterances', // leave it empty if you don't need any comment plugin
     gitalkConfig: {
       repo: '', // The repository of store comments
       owner: '',
@@ -48,7 +46,7 @@ const BLOG = {
       distractionFreeMode: false
     },
     utterancesConfig: {
-      repo: ''
+      repo: 'JiyuShao/nobelium'
     },
     cusdisConfig: {
       appId: '', // data-app-id

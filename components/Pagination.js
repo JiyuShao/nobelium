@@ -17,7 +17,7 @@ const Pagination = ({ page, showNext }) => {
         <Link
           href={
             currentPage - 1 === 1
-              ? `${BLOG.path || '/'}`
+              ? `${BLOG.path}/`
               : `/page/${currentPage - 1}`
           }
         >

@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import cn from 'classnames'
 import { fetchCusdisLang } from '@/lib/cusdisLang'
 import { useConfig } from '@/lib/config'
+import useTheme from '@/lib/theme'
 
 const GitalkComponent = dynamic(
   () => {
@@ -27,14 +28,14 @@ const CusdisComponent = dynamic(
 const Comments = ({ frontMatter }) => {
   const router = useRouter()
   const BLOG = useConfig()
-
+  const { theme } = useTheme()
   const fullWidth = frontMatter.fullWidth ?? false
 
   return (
     <div
       className={cn(
         'px-4 font-medium text-gray-500 dark:text-gray-400 my-5',
-        fullWidth ? 'md:px-24' : 'mx-auto max-w-2xl',
+        fullWidth ? 'md:px-24' : 'mx-auto max-w-3xl',
       )}
     >
       {BLOG.comment && BLOG.comment.provider === 'gitalk' && (
@@ -63,7 +64,7 @@ const Comments = ({ frontMatter }) => {
             pageId: frontMatter.id,
             pageTitle: frontMatter.title,
             pageUrl: BLOG.link + router.asPath,
-            theme: BLOG.appearance
+            theme,
           }}
         />
       )}

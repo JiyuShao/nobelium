@@ -1,9 +1,10 @@
 {
   "NAV": {
-    "INDEX": "博客",
-    "RSS": "订阅",
+    "INDEX": "博客笔记",
+    "RSS": "RSS",
     "SEARCH": "搜索",
-    "ABOUT": "关于"
+    "ABOUT": "关于",
+    "READING": "阅读记录"
   },
   "PAGINATION": {
     "PREV": "上一页",
