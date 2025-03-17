@@ -1,5 +1,5 @@
 import { clientConfig } from '@/lib/server/config'
-
+import { transformToRecordMap } from '@/lib/notion/transformToRecordMap'
 import { useRouter } from 'next/router'
 import cn from 'classnames'
 import { getAllPosts, getPostBlocks } from '@/lib/notion'
@@ -10,7 +10,7 @@ import Container from '@/components/Container'
 import Post from '@/components/Post'
 import Comments from '@/components/Comments'
 
-export default function BlogPost ({ post, blockMap, emailHash }) {
+export default function BlogPost({ post, recordMap }) {
   const router = useRouter()
   const BLOG = useConfig()
   const locale = useLocale()
@@ -32,8 +32,7 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
     >
       <Post
         post={post}
-        blockMap={blockMap}
-        emailHash={emailHash}
+        recordMap={recordMap}
         fullWidth={fullWidth}
       />
 
@@ -70,7 +69,7 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
   )
 }
 
-export async function getStaticPaths () {
+export async function getStaticPaths() {
   const posts = await getAllPosts({ includePages: true })
   return {
     paths: posts.map(row => `${clientConfig.path}/${row.slug}`),
@@ -78,21 +77,19 @@ export async function getStaticPaths () {
   }
 }
 
-export async function getStaticProps ({ params: { slug } }) {
+export async function getStaticProps({ params: { slug } }) {
   const posts = await getAllPosts({ includePages: true })
   const post = posts.find(t => t.slug === slug)
 
   if (!post) return { notFound: true }
 
-  const blockMap = await getPostBlocks(post.id)
-  const emailHash = createHash('md5')
-    .update(clientConfig.email)
-    .digest('hex')
-    .trim()
-    .toLowerCase()
+  const blocks = await getPostBlocks(post.id)
 
   return {
-    props: { post, blockMap, emailHash },
+    props: {
+      post,
+      recordMap: transformToRecordMap(post, blocks),
+    },
     revalidate: 1
   }
 }
